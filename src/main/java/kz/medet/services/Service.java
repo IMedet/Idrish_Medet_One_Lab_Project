@@ -9,6 +9,9 @@ import kz.medet.repositories.OrderRepository;
 import kz.medet.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -16,6 +19,10 @@ public class Service {
     private final CustomerRepository customerRepository;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+
+    ProductDto globe_productDto = ProductDto.builder().id(1L).name("Book").price(5000).build();
+    OrderDto globe_orderDto = OrderDto.builder().id(1L).timeCreated(Timestamp.from(Instant.now())).products(new ArrayList<>()).build();
+
 
     @Autowired
     public Service(CustomerRepository customerRepository, OrderRepository orderRepository, ProductRepository productRepository) {
@@ -34,6 +41,7 @@ public class Service {
         OrderDto orderDto = orderRepository.addOrder();
         customerDto.getOrders().add(orderDto);
         customerRepository.saveCustomer(customerDto);
+        globe_orderDto=orderDto;
     }
 
     public void addProductToOrder(Long orderId, String name, double price) {
@@ -42,6 +50,7 @@ public class Service {
         ProductDto productDto = productRepository.addProduct(name, price);
         orderDto.getProducts().add(productDto);
         orderRepository.saveOrder(orderDto);
+        globe_productDto=productDto;
     }
 
     public List<CustomerDto> getAllCustomers() {
@@ -51,12 +60,14 @@ public class Service {
     public List<OrderDto> getAllOrdersOfCustomer(Long customerId) {
         CustomerDto customerDto = customerRepository.findCustomerDtoById(customerId).orElseThrow(
                 () -> new ResourceNotFoundException("Customer", "CustomerId", customerId));
+        System.out.println(globe_orderDto);
         return customerDto.getOrders();
     }
 
     public List<ProductDto> getAllProductsOfOrder(Long orderId) {
         OrderDto orderDto = orderRepository.findOrderById(orderId).orElseThrow(
                 () -> new ResourceNotFoundException("Order", "OrderId", orderId));
+        System.out.println(globe_productDto);
         return orderDto.getProducts();
     }
 }

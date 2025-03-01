@@ -73,7 +73,7 @@ public class Main {
                     try {
                         service.getAllOrdersOfCustomer(customer_Id).stream().forEach(
                                 orderDto -> System.out.println(orderDto.toString()));
-                    }catch (ResourceNotFoundException exception){
+                    }catch (ResourceNotFoundException  exception){
                         LOGGER.warning(exception.getMessage());
                     }
                     break;

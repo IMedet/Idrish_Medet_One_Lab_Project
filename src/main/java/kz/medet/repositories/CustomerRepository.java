@@ -1,6 +1,7 @@
 package kz.medet.repositories;
 
 import kz.medet.dto.CustomerDto;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
