@@ -1,8 +1,9 @@
 package kz.medet;
 
-import kz.medet.config.AppConfig;
+import kz.medet.config.AopConfig;
+import kz.medet.exceptions.AlreadyExistException;
 import kz.medet.exceptions.ResourceNotFoundException;
-import kz.medet.services.Service;
+import kz.medet.services.Services;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -14,8 +15,8 @@ public class Main {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        Service service = context.getBean(Service.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(AopConfig.class);
+        Services services = context.getBean(Services.class);
 
 
         Scanner in = new Scanner(System.in);
@@ -30,7 +31,11 @@ public class Main {
                     "4 - Show Order of Customer\n" +
                     "5 - Add Product To Order\n" +
                     "6 - Show Product of Order\n" +
-                    "7 - Exit\n\n");
+                    "7 - Show All Categories\n" +
+                    "8 - Add Category\n" +
+                    "9 - Show products of Category\n" +
+                    "10 - Add product to Category\n" +
+                    "11 - Exit\n\n");
 
             System.out.println("Enter your choice below: ");
             int choice = in.nextInt();
@@ -38,7 +43,7 @@ public class Main {
             switch (choice) {
                 case 1:
                     System.out.println("Customers: \n");
-                    service.getAllCustomers().stream().forEach(customerDto ->
+                    services.getAllCustomers().stream().forEach(customerDto ->
                             System.out.println("Id: " + customerDto.getId() + ", "
                                     + "FirstName: " + customerDto.getFirstName() + ", "
                                     + "LastName: " + customerDto.getLastName()));
@@ -51,7 +56,7 @@ public class Main {
                     System.out.println("Enter customer's lastName: ");
                     String lastName = in.nextLine();
 
-                    service.addCustomer(firstName, lastName);
+                    services.addCustomer(firstName, lastName);
 
                     System.out.println("Customer successfully added");
                     break;
@@ -60,8 +65,8 @@ public class Main {
                     Long customerId = in.nextLong();
 
                     try {
-                        service.addOrderToCustomer(customerId);
-                    }catch (ResourceNotFoundException exception){
+                        services.addOrderToCustomer(customerId);
+                    } catch (ResourceNotFoundException exception) {
                         LOGGER.warning(exception.getMessage());
                     }
 
@@ -71,9 +76,9 @@ public class Main {
                     System.out.println("Enter Id of Customer whom orders you wanna see: ");
                     Long customer_Id = in.nextLong();
                     try {
-                        service.getAllOrdersOfCustomer(customer_Id).stream().forEach(
+                        services.getAllOrdersOfCustomer(customer_Id).stream().forEach(
                                 orderDto -> System.out.println(orderDto.toString()));
-                    }catch (ResourceNotFoundException  exception){
+                    } catch (ResourceNotFoundException exception) {
                         LOGGER.warning(exception.getMessage());
                     }
                     break;
@@ -90,7 +95,7 @@ public class Main {
                     double price = in.nextDouble();
 
                     try {
-                        service.addProductToOrder(order_Id, name, price);
+                        services.addProductToOrder(order_Id, name, price);
                     } catch (ResourceNotFoundException exception) {
                         LOGGER.warning("ResourceNotFoundException: " + exception.getMessage());
                     }
@@ -100,13 +105,63 @@ public class Main {
                     Long orderId = in.nextLong();
 
                     try {
-                        service.getAllProductsOfOrder(orderId).stream().forEach(
+                        services.getAllProductsOfOrder(orderId).stream().forEach(
                                 productDto -> System.out.println(productDto.toString()));
-                    }catch (ResourceNotFoundException exception){
+                    } catch (ResourceNotFoundException exception) {
                         LOGGER.warning(exception.getMessage());
                     }
                     break;
                 case 7:
+                    System.out.println("Categories: \n");
+                    services.getAllCategories().stream().forEach(categoryDto ->
+                            System.out.println("Id: " + categoryDto.getId() + ", "
+                                    + "Category Name: " + categoryDto.getName()));
+                    break;
+                case 8:
+
+                    in.nextLine();
+                    System.out.println("Enter category name: ");
+                    String categyName = in.nextLine();
+
+                    try {
+                        services.addCategory(categyName);
+                    } catch (AlreadyExistException exception) {
+                        LOGGER.warning(exception.getMessage());
+                    }
+
+                    System.out.println("Category successfully added");
+                    break;
+                case 9:
+                    System.out.println("Enter category ID: ");
+                    Long categyId = in.nextLong();
+
+                    try {
+                        services.getProductsOfCategory(categyId).stream().forEach(
+                                (product) -> System.out.println(product.toString())
+                        );
+                    } catch (Exception exception) {
+                        LOGGER.warning(exception.getMessage());
+                    }
+                    break;
+                case 10:
+                    System.out.println("Enter category ID: ");
+                    Long categy_Id = in.nextLong();
+
+                    in.nextLine();
+
+                    System.out.println("Enter product name: ");
+                    String productName = in.nextLine();
+
+                    System.out.println("Enter product price: ");
+                    double productPrice = in.nextDouble();
+
+                    try {
+                        services.addProductToCategory(categy_Id, productName, productPrice);
+                    } catch (ResourceNotFoundException | AlreadyExistException exception) {
+                        LOGGER.warning(exception.getMessage());
+                    }
+                    break;
+                case 11:
                     System.out.println("Existing the App!");
                     running = false;
                     break;

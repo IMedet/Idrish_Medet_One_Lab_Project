@@ -4,21 +4,21 @@ import org.aspectj.lang.annotation.Pointcut;
 
 public class MyPointCuts {
 
-    @Pointcut("execution(void kz.medet.services.Service.addCustomer(..))")
+    @Pointcut("execution(void kz.medet.services.Services.addCustomer(..))")
     public void addCustomerMethod(){}
 
-    @Pointcut("execution(* kz.medet.services.Service.getAllCustomers())")
+    @Pointcut("execution(* kz.medet.services.Services.getAllCustomers())")
     public void getCustomersMethod(){}
 
-    @Pointcut("execution(* kz.medet.services.Service.addOrderToCustomer(..))")
+    @Pointcut("execution(* kz.medet.services.Services.addOrderToCustomer(..))")
     public void addOrderToCustomerMethod(){}
 
-    @Pointcut("execution(* kz.medet.services.Service.addProductToOrder(..))")
+    @Pointcut("execution(* kz.medet.services.Services.addProductToOrder(..))")
     public void addProductToOrderMethod(){}
 
-    @Pointcut("execution(* kz.medet.services.Service.getAllOrdersOfCustomer(..))")
+    @Pointcut("execution(* kz.medet.services.Services.getAllOrdersOfCustomer(..))")
     public void getOrderOfCustomerMethod(){}
 
-    @Pointcut("execution(* kz.medet.services.Service.getAllProductsOfOrder(..))")
+    @Pointcut("execution(* kz.medet.services.Services.getAllProductsOfOrder(..))")
     public void getProductOfOrderMethod(){}
 }
