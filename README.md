@@ -1,3 +1,8 @@
+# References To Microservices
+- **User_service** (branch:master): https://github.com/IMedet/OneLab-user-service
+- **Order_service** (branch:master): https://github.com/IMedet/OneLab-order-service
+- **Product_service** (branch:master): https://github.com/IMedet/OneLab-product-service
+
 # Customer Order Management Console Application
 
 This is a Java Console application that utilizes the Spring Framework to manage customers, orders, and products. The application allows users to perform various operations related to customers and their orders through a simple console interface.
