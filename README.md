@@ -2,6 +2,7 @@
 - **User_service** (branch:master): https://github.com/IMedet/OneLab-user-service
 - **Order_service** (branch:master): https://github.com/IMedet/OneLab-order-service
 - **Product_service** (branch:master): https://github.com/IMedet/OneLab-product-service
+- **Eureka-Server** (branch:master): https://github.com/IMedet/OneLab-eureka-server
 
 # Customer Order Management Console Application
 
