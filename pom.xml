@@ -21,6 +21,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <modules>
+        <module>user-service</module>
+        <module>order-service</module>
+        <module>product-service</module>
+        <module>one-lab-eureka-server</module>
+    </modules>
+
+    <packaging>pom</packaging>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
